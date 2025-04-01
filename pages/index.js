@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import Head from 'next/head';
 
 export default function Home() {
   const [snippets, setSnippets] = useState([]);
@@ -23,27 +24,45 @@ export default function Home() {
   );
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">📘 Mis Snippets</h1>
-      <input
-        className="w-full p-2 border rounded mb-4"
-        placeholder="Buscar..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-      />
-      <ul className="space-y-4">
-        {filtered.map(snippet => (
-          <li key={snippet.id} className="bg-gray-100 p-4 rounded shadow">
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="font-semibold">{snippet.title || '(Sin título)'}</h2>
-              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                {snippet.type}
-              </span>
-            </div>
-            <pre className="whitespace-pre-wrap text-sm">{snippet.content}</pre>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Head>
+        <title>ShaderBit Cookbook</title>
+        <meta name="description" content="Colección de snippets y técnicas de shaders" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+
+      <div className="min-h-screen bg-gray-50 text-gray-800 px-4 py-12 font-lato">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold mb-8 text-center">🧠 ShaderBit Cookbook</h1>
+          <input
+            className="w-full mb-8 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Buscar snippet..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <ul className="space-y-8">
+            {filtered.map(snippet => (
+              <li key={snippet.id} className="bg-white shadow rounded p-6">
+                <div className="mb-2 flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">{snippet.title || '(Sin título)'}</h2>
+                  <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                    {snippet.type}
+                  </span>
+                </div>
+                <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded text-sm overflow-auto">
+                  {snippet.content}
+                </pre>
+                <p className="text-xs text-right text-gray-500 mt-2">
+                  {new Date(snippet.created_at).toLocaleDateString()}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 }
