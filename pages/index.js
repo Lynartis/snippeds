@@ -34,9 +34,9 @@ export default function Home() {
         />
       </Head>
 
-      <div className="min-h-screen bg-gray-50 text-gray-800 px-4 py-12 font-lato">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center">🧠 ShaderBit Cookbook</h1>
+     <div className="min-h-screen bg-gray-50 text-gray-800 font-lato flex items-center justify-center px-4">
+  <div className="max-w-3xl mx-auto">
+    <h1 className="text-4xl font-bold mb-8 text-center">ShaderBit Cookbook</h1>
           <input
             className="w-full mb-8 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Buscar snippet..."
