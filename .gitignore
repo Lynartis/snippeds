@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Build output
+.next/
+out/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# VS Code config
+.vscode/
+
+# Optional: local data or backups
+*.swp
+*.bak
+*.tmp
+
+# Vercel
+.vercel/
