@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 import Head from 'next/head';
+import snippetsData from '../data/snippets.json';
 
 export default function Home() {
   const [snippets, setSnippets] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetchSnippets();
+    setSnippets(snippetsData);
   }, []);
-
-  async function fetchSnippets() {
-    const { data } = await supabase
-      .from('snippets')
-      .select('*')
-      .order('created_at', { ascending: false });
-    setSnippets(data || []);
-  }
 
   const filtered = snippets.filter(s =>
     (s.content || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -27,16 +19,16 @@ export default function Home() {
     <>
       <Head>
         <title>ShaderBit Cookbook</title>
-        <meta name="description" content="Colección de snippets y técnicas de shaders" />
+        <meta name="description" content="Snippets sin conexión a Supabase" />
         <link
           href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
           rel="stylesheet"
         />
       </Head>
 
-     <div className="min-h-screen bg-gray-50 text-gray-800 font-lato flex items-center justify-center px-4">
-  <div className="max-w-3xl mx-auto">
-    <h1 className="text-4xl font-bold mb-8 text-center">ShaderBit Cookbook</h1>
+      <div className="min-h-screen bg-gray-50 text-gray-800 font-lato px-4 py-12 flex justify-center">
+        <div className="max-w-3xl w-full">
+          <h1 className="text-4xl font-bold mb-8 text-center">🧠 ShaderBit Cookbook</h1>
           <input
             className="w-full mb-8 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Buscar snippet..."
