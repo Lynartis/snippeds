@@ -1,5 +1,12 @@
 [
   {
+    "id": "14da0bf4-8597-4e75-a13e-5b077466c80c",
+    "title": "Stars optimized",
+    "created_at": "2025-04-03T18:35:52.437417+00:00",
+    "content": "// === Optimized 3D Gradient Noise ===\nvec3 hash(vec3 p) {\n    p = fract(p * 0.3183099 + vec3(0.1, 0.2, 0.3));\n    p *= 17.0;\n    return -1.0 + 2.0 * fract(p * (p.yzx + 19.19));\n}\n\nfloat noise(vec3 p) {\n    vec3 i = floor(p);\n    vec3 f = fract(p);\n    vec3 u = f * f * (3.0 - 2.0 * f);\n\n    vec3 g000 = hash(i + vec3(0,0,0));\n    vec3 g100 = hash(i + vec3(1,0,0));\n    vec3 g010 = hash(i + vec3(0,1,0));\n    vec3 g110 = hash(i + vec3(1,1,0));\n    vec3 g001 = hash(i + vec3(0,0,1));\n    vec3 g101 = hash(i + vec3(1,0,1));\n    vec3 g011 = hash(i + vec3(0,1,1));\n    vec3 g111 = hash(i + vec3(1,1,1));\n\n    float n000 = dot(g000, f - vec3(0,0,0));\n    float n100 = dot(g100, f - vec3(1,0,0));\n    float n010 = dot(g010, f - vec3(0,1,0));\n    float n110 = dot(g110, f - vec3(1,1,0));\n    float n001 = dot(g001, f - vec3(0,0,1));\n    float n101 = dot(g101, f - vec3(1,0,1));\n    float n011 = dot(g011, f - vec3(0,1,1));\n    float n111 = dot(g111, f - vec3(1,1,1));\n\n    float nx00 = mix(n000, n100, u.x);\n    float nx10 = mix(n010, n110, u.x);\n    float nx01 = mix(n001, n101, u.x);\n    float nx11 = mix(n011, n111, u.x);\n\n    float nxy0 = mix(nx00, nx10, u.y);\n    float nxy1 = mix(nx01, nx11, u.y);\n\n    return mix(nxy0, nxy1, u.z);\n}\n\n// === Main Shader ===\nvoid mainImage(out vec4 fragColor, in vec2 fragCoord)\n{\n    vec2 uv = fragCoord / iResolution.xy;\n    vec2 centeredUV = uv * 2.0 - 1.0;\n\n    // Curvatura angular (más bajo = más compresión en bordes)\n    float angularScale = 0.3;\n\n    // Zoom global del patrón\n    float zoom = 4.0;\n\n    // Dirección corregida\n    vec3 dir = normalize(vec3(centeredUV * angularScale, 1.0));\n    vec3 dir200 = dir * 200.0 * zoom;\n    vec3 dir100 = dir * 100.0 * zoom + vec3(iTime);\n\n    // Base noise\n    float baseNoise = clamp(noise(dir200), 0.0, 1.0);\n\n    // Más estrellas: usamos pow(x, 4) en lugar de pow(x, 8)\n    float n = baseNoise;\n    n *= n; // ^2\n    n *= n; // ^4\n\n    float flicker = mix(0.4, 1.4, noise(dir100));\n    float stars = n * 200.0 * flicker;\n\n    fragColor = vec4(vec3(stars), 1.0);\n}",
+    "type": "código"
+  },
+  {
     "id": "7cc47bd6-fac6-4cde-8a82-772d4c0bf660",
     "title": "Vertex shader toolkit",
     "created_at": "2025-04-02T06:27:08.30053+00:00",
