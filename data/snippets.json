@@ -1,5 +1,12 @@
 [
   {
+    "id": "2547da6e-53c5-400b-a8e0-07e791dca0cf",
+    "title": "Uv projection sphere",
+    "created_at": "2025-04-07T14:27:59.338809+00:00",
+    "content": "float3 dir = normalize(worldPosition - viewerPosition);\nfloat2 sphericalUV;\nsphericalUV.x = 0.5 + atan2(dir.z, dir.x) / (2.0 * PI);\nsphericalUV.y = 0.5 - asin(dir.y) / PI;",
+    "type": "código"
+  },
+  {
     "id": "9bf4284f-5ee7-4bb8-938d-48b71db7b39c",
     "title": "Time waves",
     "created_at": "2025-04-03T18:47:17.691674+00:00",
