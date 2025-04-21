@@ -1,5 +1,12 @@
 [
   {
+    "id": "45d5aa8d-7d48-4376-b765-34b003342950",
+    "title": "Concentric",
+    "created_at": "2025-04-21T12:12:39.506295+00:00",
+    "content": "float hash(float3 p) {\n    p = frac(p * 0.3183099 + 0.1);\n    p *= 17.0;\n    return frac(p.x * p.y * p.z * (p.x + p.y + p.z));\n}\n\nfloat noise3D(float3 p) {\n    float3 i = floor(p);\n    float3 f = frac(p);\n    f = f * f * (3.0 - 2.0 * f); // smoothstep\n\n    float n000 = hash(i + float3(0,0,0));\n    float n100 = hash(i + float3(1,0,0));\n    float n010 = hash(i + float3(0,1,0));\n    float n110 = hash(i + float3(1,1,0));\n    float n001 = hash(i + float3(0,0,1));\n    float n101 = hash(i + float3(1,0,1));\n    float n011 = hash(i + float3(0,1,1));\n    float n111 = hash(i + float3(1,1,1));\n\n    float n00 = lerp(n000, n100, f.x);\n    float n10 = lerp(n010, n110, f.x);\n    float n01 = lerp(n001, n101, f.x);\n    float n11 = lerp(n011, n111, f.x);\n\n    float n0 = lerp(n00, n10, f.y);\n    float n1 = lerp(n01, n11, f.y);\n\n    return lerp(n0, n1, f.z);\n}\n\nfloat fbm(float3 p) {\n    float v = 0.0;\n    float a = 0.5;\n    for (int i = 0; i < 4; ++i) {\n        v += a * noise3D(p);\n        p *= 2.0;\n        a *= 0.5;\n    }\n    return v;\n}\n\nfloat4 PS_CloudSphereParallax(V2F i) : SV_Target {\n    float3 worldPos = i.vWorld.xyz;\n\n    float3 sphereCenter = float3(0.0, 0.0, 0.0); // o pon la posición real del centro\n    float3 dirFromCenter = normalize(worldPos - sphereCenter);\n    float distFromCenter = length(worldPos - sphereCenter);\n\n    float scaleBase = 0.03;\n    float finalClouds = 0.0;\n\n    int layers = 6;\n    float layerSpacing = 0.1; // cuán separadas están las capas\n\n    for (int l = 0; l < layers; ++l) {\n        float scale = 1.0 + l * layerSpacing; // esferas más grandes\n        float3 samplePos = sphereCenter + dirFromCenter * (distFromCenter * scale);\n        float3 noiseCoord = samplePos * scaleBase;\n\n        float d = fbm(noiseCoord);\n        float cloudLayer = smoothstep(0.45, 0.6, d);\n\n        float fade = 1.0 - (float)l / (float)(layers); // lejanía = menos opaco\n        finalClouds += cloudLayer * fade;\n    }\n\n    finalClouds = saturate(finalClouds);\n\n    float3 col = lerp(float3(0.6, 0.7, 1.0), float3(1.0, 1.0, 1.0), finalClouds);\n    return float4(col, 1.0);\n}",
+    "type": "código"
+  },
+  {
     "id": "c7c8bbf7-afa6-4a4c-80e7-2d0150b9458f",
     "title": "Layers",
     "created_at": "2025-04-21T11:48:45.234254+00:00",
