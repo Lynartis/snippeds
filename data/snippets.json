@@ -1,5 +1,19 @@
 [
   {
+    "id": "797327a4-deeb-43b2-861a-f03f8ade643d",
+    "title": "Clouds2",
+    "created_at": "2025-04-21T08:34:33.140994+00:00",
+    "content": "float hash(float3 p) {\n    p = frac(p * 0.3183099 + 0.1);\n    p *= 17.0;\n    return frac(p.x * p.y * p.z * (p.x + p.y + p.z));\n}\n\nfloat noise3D(float3 p) {\n    float3 i = floor(p);\n    float3 f = frac(p);\n    f = f * f * (3.0 - 2.0 * f); // smoothstep\n\n    float n000 = hash(i + float3(0,0,0));\n    float n100 = hash(i + float3(1,0,0));\n    float n010 = hash(i + float3(0,1,0));\n    float n110 = hash(i + float3(1,1,0));\n    float n001 = hash(i + float3(0,0,1));\n    float n101 = hash(i + float3(1,0,1));\n    float n011 = hash(i + float3(0,1,1));\n    float n111 = hash(i + float3(1,1,1));\n\n    float n00 = lerp(n000, n100, f.x);\n    float n10 = lerp(n010, n110, f.x);\n    float n01 = lerp(n001, n101, f.x);\n    float n11 = lerp(n011, n111, f.x);\n\n    float n0 = lerp(n00, n10, f.y);\n    float n1 = lerp(n01, n11, f.y);\n\n    return lerp(n0, n1, f.z);\n}\n\nfloat fbm(float3 p) {\n    float v = 0.0;\n    float a = 0.5;\n    for (int i = 0; i < 5; ++i) {\n        v += a * noise3D(p);\n        p *= 2.0;\n        a *= 0.5;\n    }\n    return v;\n}\n\nfloat4 PS_Clouds(V2F i) : SV_Target {\n    float3 worldPos = i.vWorld.xyz;\n    float3 p = worldPos * 0.1; // escala del ruido\n\n    float density = fbm(p + float3(0, 0, _Time.y * 0.1)); // animación en Z\n    float clouds = smoothstep(0.4, 0.6, density); // umbral de nubes\n\n    float3 cloudColor = lerp(float3(0.7, 0.8, 1.0), float3(1.0, 1.0, 1.0), clouds);\n    return float4(cloudColor, 1.0);\n}",
+    "type": "código"
+  },
+  {
+    "id": "7e9769a1-36f6-4e53-ab1c-f30ebb0a793a",
+    "title": "Noise",
+    "created_at": "2025-04-21T08:33:59.53177+00:00",
+    "content": "float noise3(float3 p) {\n    float3 i = floor(p);\n    float3 f = frac(p);\n    f = f * f * (3.0 - 2.0 * f);\n\n    float n = dot(i, float3(1.0, 57.0, 113.0));\n    float res = lerp(\n        lerp(\n            lerp(frac(sin(n + 0.0) * 43758.5453), frac(sin(n + 1.0) * 43758.5453), f.x),\n            lerp(frac(sin(n + 57.0) * 43758.5453), frac(sin(n + 58.0) * 43758.5453), f.x),\n            f.y),\n        lerp(\n            lerp(frac(sin(n + 113.0) * 43758.5453), frac(sin(n + 114.0) * 43758.5453), f.x),\n            lerp(frac(sin(n + 170.0) * 43758.5453), frac(sin(n + 171.0) * 43758.5453), f.x),\n            f.y),\n        f.z\n    );\n    return res;\n}\n\nfloat cloudNoise3D(float3 p) {\n    float d = 0;\n    float amp = 0.5;\n    float freq = 1.0;\n    for (int i = 0; i < 4; i++) {\n        d += amp * noise3(p * freq);\n        freq *= 2.0;\n        amp *= 0.5;\n    }\n    return smoothstep(0.4, 0.6, d);\n}\n\nfloat4 PS_CloudsCheap(V2F i) : SV_Target {\n    float3 p = i.vWorld.xyz * 0.05;\n    float n = cloudNoise3D(p + float3(0, 0, _Time.y * 0.05));\n    return float4(lerp(float3(0.7, 0.8, 1.0), float3(1.0, 1.0, 1.0), n), 1.0);\n}",
+    "type": "código"
+  },
+  {
     "id": "aaa9e953-3e3b-4eb8-9273-57c0aacd3435",
     "title": "Mask",
     "created_at": "2025-04-11T08:45:03.074477+00:00",
