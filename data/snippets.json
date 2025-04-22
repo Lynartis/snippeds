@@ -1,5 +1,19 @@
 [
   {
+    "id": "a398a505-cc6d-4df4-aff1-7dbf8c0a9950",
+    "title": "Redemption2",
+    "created_at": "2025-04-22T07:24:29.221727+00:00",
+    "content": "float4 PS_AnchoredNoise(V2F i) : SV_Target {\n    float cellSize = 10.0;\n    float scale = 0.1;\n\n    // Posición del fragmento en el mundo (i.vWorld)\n    float3 worldPos = i.vWorld.xyz;\n\n    // Calcula a qué celda pertenece el objeto (jugador/esfera)\n    float3 snappedChunkOrigin = floor(_ObjectWorldPos / cellSize) * cellSize;\n\n    // Esta es la celda \"actual\", fija\n    // Ahora restamos esta celda al fragmento para obtener una posición RELATIVA A LA CELDA\n    float3 localPos = worldPos - snappedChunkOrigin;\n\n    // Pero aquí viene la clave: también restamos el movimiento del objeto DENTRO de su celda\n    float3 offset = _ObjectWorldPos - snappedChunkOrigin;\n\n    // Así el ruido se \"ancla\" y no se mueve aunque el objeto se mueva dentro del chunk\n    float3 staticNoisePos = localPos + offset;\n\n    // Evalúa el ruido mundialmente fijo\n    float density = fbm(staticNoisePos * scale);\n    float clouds = smoothstep(0.4, 0.6, density);\n    float3 color = lerp(float3(0.5, 0.6, 0.8), float3(1.0, 1.0, 1.0), clouds);\n\n    return float4(color, 1.0);\n}",
+    "type": "código"
+  },
+  {
+    "id": "1b54c6e5-38d7-4676-bec6-5ec77a19aec5",
+    "title": "Redemption",
+    "created_at": "2025-04-22T07:24:03.477777+00:00",
+    "content": "float3 worldPos = i.vWorld.xyz;\nfloat3 cellSize = float3(10.0, 10.0, 10.0);\n\n// Posición fraccional dentro de la celda\nfloat3 cellCoord = worldPos / cellSize;\nfloat3 cellBase = floor(cellCoord);\nfloat3 frac = frac(cellCoord);\n\n// Inicializar el valor de ruido interpolado\nfloat noiseValue = 0.0;\n\n// Iterar sobre los 8 vértices del cubo\nfor (int x = 0; x <= 1; x++) {\n    for (int y = 0; y <= 1; y++) {\n        for (int z = 0; z <= 1; z++) {\n            float3 offset = float3(x, y, z);\n            float3 samplePos = (cellBase + offset) * cellSize;\n            float weight = (x == 0 ? 1.0 - frac.x : frac.x) *\n                           (y == 0 ? 1.0 - frac.y : frac.y) *\n                           (z == 0 ? 1.0 - frac.z : frac.z);\n            noiseValue += fbm(samplePos * scale) * weight;\n        }\n    }\n}\n\n// Aplicar el valor de ruido interpolado\nfloat clouds = smoothstep(0.4, 0.6, noiseValue);\nfloat3 color = lerp(float3(0.5, 0.6, 0.8), float3(1.0, 1.0, 1.0), clouds);\nreturn float4(color, 1.0);",
+    "type": "código"
+  },
+  {
     "id": "45d5aa8d-7d48-4376-b765-34b003342950",
     "title": "Concentric",
     "created_at": "2025-04-21T12:12:39.506295+00:00",
