@@ -1,5 +1,12 @@
 [
   {
+    "id": "7945c34f-a344-4e73-92e5-77e4e439c132",
+    "title": "Sphere",
+    "created_at": "2025-05-09T14:23:20.425599+00:00",
+    "content": "float3 dir = normalize(pos); // Position in object or world space, normalized\n\n// 1. Accurate spherical projection (uses trig)\nfloat u1 = 0.5 + atan2(dir.z, dir.x) / (2.0 * 3.14159265); // longitude\nfloat v1 = 0.5 - asin(dir.y) / 3.14159265;                 // latitude\nfloat2 uvAccurate = float2(u1, v1);\n\n// 2. Medium-cost version (skip asin)\nfloat u2 = 0.5 + atan2(dir.z, dir.x) / (2.0 * 3.14159265); // longitude\nfloat v2 = dir.y * 0.5 + 0.5;                              // approximation of latitude\nfloat2 uvMedium = float2(u2, v2);\n\n// 3. Cheap version (only normalize + scale)\nfloat2 uvCheap = dir.xy * 0.5 + 0.5; // crude projection\n\n// Use any of the above:\n// return uvAccurate;\n// return uvMedium;\n// return uvCheap;",
+    "type": "código"
+  },
+  {
     "id": "14432464-eb47-4e87-86fe-4f59d77d3b19",
     "title": "Max03",
     "created_at": "2025-04-27T20:42:20.334336+00:00",
