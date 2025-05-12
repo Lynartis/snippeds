@@ -1,5 +1,12 @@
 [
   {
+    "id": "710a9b5c-8e53-4484-8d75-b18251502fbb",
+    "title": "Snep",
+    "created_at": "2025-05-12T13:18:35.804275+00:00",
+    "content": "float mist = z.mist;\n\n// Tramo 1: [0.25, 0.35] mapeado a [0.0, 0.5]\nfloat a = saturate((mist - 0.25) / (0.35 - 0.25)) * 0.5;\n\n// Tramo 2: [0.35, 1.0] mapeado a [0.5, 1.0]\nfloat b = saturate((mist - 0.35) / (1.0 - 0.35)) * 0.5 + 0.5;\n\n// Combinar ambos, el segundo tramo sobrescribe al primero si mist > 0.35\nfloat result = max(a, b);",
+    "type": "código"
+  },
+  {
     "id": "78e26758-c10a-4be9-a40c-8285858e071b",
     "title": "Snipp",
     "created_at": "2025-05-12T13:11:20.573803+00:00",
