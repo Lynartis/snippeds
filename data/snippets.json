@@ -1,5 +1,12 @@
 [
   {
+    "id": "2a9938d6-ae0f-4a03-9846-d191c3e5cec5",
+    "title": "Hah",
+    "created_at": "2025-05-12T15:03:03.370846+00:00",
+    "content": "// Project the 3D world position to clip space\nfloat4 clipPos = mul(float4(playerWorldPos, 1.0), ViewProjMatrix);\n\n// Convert to NDC (Normalized Device Coordinates)\nclipPos.xyz /= clipPos.w;\n\n// Convert NDC [-1,1] to UV [0,1]\nfloat2 playerScreenUV = clipPos.xy * 0.5 + 0.5;\n\n// Now compare screen-space UVs to player screen UV\nfloat dist = distance(uv, playerScreenUV);\n\n// Create a circle mask using distance\nfloat radius = 0.1; // Adjust to your desired size\nfloat softness = 0.01; // Optional: feathered edge\n\n// Circle mask: 1.0 inside the circle, 0.0 outside, with smooth edge\nfloat circleMask = smoothstep(radius, radius - softness, dist);\n\n// Use this mask to affect color or opacity\nreturn float4(circleMask, circleMask, circleMask, 1.0);",
+    "type": "código"
+  },
+  {
     "id": "710a9b5c-8e53-4484-8d75-b18251502fbb",
     "title": "Snep",
     "created_at": "2025-05-12T13:18:35.804275+00:00",
