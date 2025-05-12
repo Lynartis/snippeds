@@ -1,5 +1,12 @@
 [
   {
+    "id": "78e26758-c10a-4be9-a40c-8285858e071b",
+    "title": "Snipp",
+    "created_at": "2025-05-12T13:11:20.573803+00:00",
+    "content": "float mist = z.mist;\nfloat result = 0.0;\n\nif (mist < 0.25)\n{\n    result = 0.0;\n}\nelse if (mist < 0.35)\n{\n    // Remapea de [0.25, 0.35] a [0.0, 0.5]\n    result = (mist - 0.25) / (0.35 - 0.25) * 0.5;\n}\nelse\n{\n    // Remapea de [0.35, 1.0] a [0.5, 1.0]\n    result = 0.5 + (mist - 0.35) / (1.0 - 0.35) * 0.5;\n}\n\n// Ahora `result` va de 0 a 1 con la forma que querías",
+    "type": "código"
+  },
+  {
     "id": "7945c34f-a344-4e73-92e5-77e4e439c132",
     "title": "Sphere",
     "created_at": "2025-05-09T14:23:20.425599+00:00",
