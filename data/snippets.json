@@ -1,5 +1,12 @@
 [
   {
+    "id": "3a9a14c6-5f08-47de-b79a-0df475c32eb5",
+    "title": "Heyy",
+    "created_at": "2025-05-13T07:21:18.494524+00:00",
+    "content": "float hash(float n) {\n    return frac(sin(n) * 43758.5453123);\n}\n\nfloat lightningMask(float time, float frequency) {\n    // Ajusta el tiempo según la frecuencia deseada\n    float t = time * frequency;\n\n    float a = sin(t * 3.1 + hash(floor(t * 0.2) + 1.23) * 6.28);\n    float b = sin(t * 7.3 + hash(floor(t * 0.1) + 4.56) * 6.28);\n    float c = sin(t * 13.7 + hash(floor(t * 0.07) + 7.89) * 6.28);\n\n    float combined = (a + b * 0.5 + c * 0.25) * 0.4 + 0.5;\n\n    // Umbral puede ajustarse también si quieres más o menos sensibilidad\n    return step(0.98, combined);\n}",
+    "type": "código"
+  },
+  {
     "id": "d0e82104-0ee1-4794-8d5c-cd0b4868a8c4",
     "title": "Rempa",
     "created_at": "2025-05-12T16:31:52.605533+00:00",
