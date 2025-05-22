@@ -1,5 +1,12 @@
 [
   {
+    "id": "e131238d-1b21-4921-986f-3a81ffc409e4",
+    "title": "Vscode",
+    "created_at": "2025-05-19T07:53:40.402043+00:00",
+    "content": "{\n    // See https://go.microsoft.com/fwlink/?LinkId=733558\n    // for the documentation about the tasks.json format\n    \"version\": \"2.0.0\",\n    \"tasks\": [\n       {\n          \"label\": \"Execute Script in 3ds Max\",\n          \"type\": \"shell\",\n          \"command\": \"C:\\\\Program Files\\\\MXSPyCOM\\\\MXSPyCOM-master\\\\bin\\\\Release\\\\net6.0-windows\\\\win-x64\\\\MXSPyCOM.exe\",\n          \"args\": [\n             \"-s\",\n             \"${file}\"\n          ],\n          \"presentation\": {\n             \"echo\": false,\n             \"reveal\": \"never\",\n             \"focus\": false,\n             \"panel\": \"dedicated\"\n          },\n          \"problemMatcher\": [],\n       }\n    ]\n}",
+    "type": "código"
+  },
+  {
     "id": "3a9a14c6-5f08-47de-b79a-0df475c32eb5",
     "title": "Heyy",
     "created_at": "2025-05-13T07:21:18.494524+00:00",
