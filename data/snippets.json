@@ -1,5 +1,12 @@
 [
   {
+    "id": "1381a8fe-d089-4a51-a65d-8d92ff46eef8",
+    "title": "Circular",
+    "created_at": "2025-06-12T07:47:57.607233+00:00",
+    "content": "cbuffer TimeBuffer : register(b0)\n{\n    float Time;           // Global time in seconds\n    float Radius;         // Radius of circular motion\n    float Speed;          // Rotation speed in radians/sec\n    float Padding;\n};\n\nstruct VS_INPUT\n{\n    float3 position : POSITION;  // Local position of vertex\n    float2 uv       : TEXCOORD0; // UV coordinates\n    float3 center   : TEXCOORD1; // World-space center of the cloud card\n};\n\nstruct VS_OUTPUT\n{\n    float4 position : SV_POSITION;\n    float2 uv       : TEXCOORD0;\n};\n\nVS_OUTPUT main(VS_INPUT input)\n{\n    VS_OUTPUT output;\n\n    // Calculate current angle\n    float angle = Time * Speed;\n\n    // Compute new XZ position around Y axis\n    float x = input.center.x + cos(angle) * Radius;\n    float z = input.center.z + sin(angle) * Radius;\n\n    // Apply the circular motion to the card's center\n    float3 rotatedCenter = float3(x, input.center.y, z);\n\n    // Final world position of the vertex\n    float3 worldPos = rotatedCenter + input.position;\n\n    // Transform to clip space (assume you have a matrix somewhere)\n    extern float4x4 WorldViewProjection;\n    output.position = mul(float4(worldPos, 1.0), WorldViewProjection);\n\n    output.uv = input.uv;\n    return output;\n}",
+    "type": "código"
+  },
+  {
     "id": "32a2879e-33b8-491d-8e8a-ce7114c2a8bf",
     "title": "Mall",
     "created_at": "2025-06-05T13:24:13.021895+00:00",
