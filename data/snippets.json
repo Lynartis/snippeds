@@ -1,5 +1,12 @@
 [
   {
+    "id": "e791bfa1-27e4-4e16-a74d-289f4fcd6292",
+    "title": "Ligh",
+    "created_at": "2025-06-13T09:35:41.441393+00:00",
+    "content": "// Inputs\nfloat3 worldPos;   // posición del píxel\nfloat3 lightPos;   // posición de la luz\nfloat2 uv;         // coordenadas UV\nTexture2D mask01;  // RGBA = up, down, left, right\nTexture2D mask02;  // R = front, B = back\nSamplerState sampl;\n\n// Parámetros configurables\nfloat3 directionWeights = float3(1.0, 1.0, 1.0); // x = left/right, y = up/down, z = front/back\nfloat blendSoftness = 0.5; // distancia en unidades a partir de la cual empieza el blending\n\n// Vector de diferencia\nfloat3 delta = worldPos - lightPos;\n\n// Blending suave por eje (a más distancia en una dirección, más contribuye ese lado)\nfloat up     = saturate( delta.y / blendSoftness);   // +Y\nfloat down   = saturate(-delta.y / blendSoftness);   // -Y\nfloat right  = saturate( delta.x / blendSoftness);   // +X\nfloat left   = saturate(-delta.x / blendSoftness);   // -X\nfloat back   = saturate( delta.z / blendSoftness);   // +Z (hacia la cámara)\nfloat front  = saturate(-delta.z / blendSoftness);   // -Z (hacia adelante)\n\n// Aplicar pesos de importancia por eje\nup    *= directionWeights.y;\ndown  *= directionWeights.y;\nleft  *= directionWeights.x;\nright *= directionWeights.x;\nfront *= directionWeights.z;\nback  *= directionWeights.z;\n\n// Samplear las máscaras\nfloat4 m1 = mask01.Sample(sampl, uv); // RGBA = up, down, left, right\nfloat4 m2 = mask02.Sample(sampl, uv); // R = front, B = back\n\n// Mezclar usando los pesos suaves\nfloat finalMask =\n    m1.r * up +\n    m1.g * down +\n    m1.b * left +\n    m1.a * right +\n    m2.r * front +\n    m2.b * back;",
+    "type": "código"
+  },
+  {
     "id": "5613f718-6d78-49fb-857b-a5bdf9fb6b56",
     "title": "Aswagh",
     "created_at": "2025-06-13T07:11:27.136802+00:00",
