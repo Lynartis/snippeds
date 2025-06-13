@@ -1,5 +1,12 @@
 [
   {
+    "id": "a22fbdb7-9e91-47e4-9db4-b9e307d8520a",
+    "title": "Este",
+    "created_at": "2025-06-13T12:34:23.798792+00:00",
+    "content": "// Inputs\nTexture2D gradientTex : register(t0);\nSamplerState samplerState : register(s0);\n\n// Parámetros de animación\nfloat time;             // Tiempo externo\nfloat lightWidth = 0.2; // Tamaño de la \"ventana de luz\"\nfloat speed = 0.5;      // Velocidad de paneo\n\n// Entrada de UV\nfloat2 uv : TEXCOORD0;\n\nfloat4 main(float2 uv : TEXCOORD0) : SV_Target\n{\n    // Leemos el color base de la textura (asumimos un gradiente horizontal en UV.x)\n    float baseColor = gradientTex.Sample(samplerState, uv).r;\n\n    // Calculamos la posición del centro de la luz en [0, 1]\n    float lightCenter = frac(time * speed);\n\n    // Borde de la luz\n    float halfWidth = lightWidth * 0.5;\n    float lightStart = lightCenter - halfWidth;\n    float lightEnd   = lightCenter + halfWidth;\n\n    // Creamos una máscara suave de luz usando smoothstep para bordes suaves\n    float mask = smoothstep(lightStart, lightStart + 0.01, uv.x) * \n                 (1.0 - smoothstep(lightEnd - 0.01, lightEnd, uv.x));\n\n    // Resultado: base del gradiente afectado solo por la luz que se mueve\n    float lit = baseColor * mask;\n\n    return float4(lit.xxx, 1.0); // Gris iluminado\n}",
+    "type": "código"
+  },
+  {
     "id": "0382f24b-044f-43c1-b7f9-2f5c2735f4e8",
     "title": "Paner",
     "created_at": "2025-06-13T12:06:50.506951+00:00",
