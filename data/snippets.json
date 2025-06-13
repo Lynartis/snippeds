@@ -1,5 +1,12 @@
 [
   {
+    "id": "a65be69f-9ecc-4994-8e59-0225797ba9f9",
+    "title": "Queee",
+    "created_at": "2025-06-13T09:41:57.065589+00:00",
+    "content": "float ComputeLightMask(float3 worldPos, float3 lightPos, float2 uv, Texture2D mask01, Texture2D mask02, SamplerState sampl)\n{\n    float3 lightDir = lightPos - worldPos; // Dirección desde el píxel hacia la luz\n\n    // Muestrea las máscaras\n    float4 mask01Val = mask01.Sample(sampl, uv); // RGBA = Up, Down, Left, Right\n    float4 mask02Val = mask02.Sample(sampl, uv); // R = Front, B = Back\n\n    // Determina qué canal usar según la dirección\n    float xMask = (lightDir.x > 0.0f) ? mask01Val.a : mask01Val.b; // Right : Left\n    float yMask = (lightDir.y > 0.0f) ? mask01Val.r : mask01Val.g; // Up : Down\n    float zMask = (lightDir.z > 0.0f) ? mask02Val.b : mask02Val.r; // Z > 0 = hacia cámara (Back), Z < 0 = adelante (Front)\n\n    // Ponderación por dirección al cuadrado (blending Pythagoras style)\n    float lightMask =\n        xMask * (lightDir.x * lightDir.x) +\n        yMask * (lightDir.y * lightDir.y) +\n        zMask * (lightDir.z * lightDir.z);\n\n    return lightMask;\n}",
+    "type": "código"
+  },
+  {
     "id": "e791bfa1-27e4-4e16-a74d-289f4fcd6292",
     "title": "Ligh",
     "created_at": "2025-06-13T09:35:41.441393+00:00",
