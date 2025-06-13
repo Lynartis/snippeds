@@ -1,5 +1,12 @@
 [
   {
+    "id": "0382f24b-044f-43c1-b7f9-2f5c2735f4e8",
+    "title": "Paner",
+    "created_at": "2025-06-13T12:06:50.506951+00:00",
+    "content": "// Parámetros\nTexture2D gradientTex : register(t0); // Gradiente lineal en X\nSamplerState samplerState : register(s0);\n\nfloat time;             // Tiempo para animación\nfloat lightWidth = 0.2; // Ancho del paneo (porcentaje del gradiente)\nfloat speed = 0.5;      // Velocidad de paneo\n\n// Entrada UV por píxel\nfloat2 uv : TEXCOORD0;\n\nfloat4 main(float2 uv : TEXCOORD0) : SV_Target\n{\n    // Gradiente base\n    float gradient = gradientTex.Sample(samplerState, uv).r;\n\n    // Paneo de luz\n    float lightCenter = frac(time * speed); // Ciclo de 0 a 1\n    float lightStart  = lightCenter - lightWidth * 0.5;\n    float lightEnd    = lightCenter + lightWidth * 0.5;\n\n    // Comprobar si estamos dentro de la zona iluminada\n    float lightMask = smoothstep(lightStart, lightStart + 0.01, uv.x) *\n                      (1.0 - smoothstep(lightEnd - 0.01, lightEnd, uv.x));\n\n    // Composición final\n    float result = gradient * lightMask;\n\n    return float4(result.xxx, 1.0);\n}",
+    "type": "código"
+  },
+  {
     "id": "a65be69f-9ecc-4994-8e59-0225797ba9f9",
     "title": "Queee",
     "created_at": "2025-06-13T09:41:57.065589+00:00",
