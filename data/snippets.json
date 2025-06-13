@@ -1,5 +1,12 @@
 [
   {
+    "id": "5613f718-6d78-49fb-857b-a5bdf9fb6b56",
+    "title": "Aswagh",
+    "created_at": "2025-06-13T07:11:27.136802+00:00",
+    "content": "VertexOutput VS_Main(VertexInput input)\n{\n    VertexOutput o;\n\n    float4 worldPos = mul(instanceTransform, float4(input.position, 1.0));\n    o.worldPos = worldPos.xyz;\n\n    float3x3 rotationScale = (float3x3)instanceTransform;\n    float3x3 normalMatrix = transpose(inverse(rotationScale));\n\n    o.normal = normalize(mul(normalMatrix, input.normal));\n    o.tangent = normalize(mul(rotationScale, input.tangent));\n    o.uv = input.uv;\n\n    o.position = mul(ViewProjectionMatrix, worldPos);\n    return o;\n}",
+    "type": "código"
+  },
+  {
     "id": "1381a8fe-d089-4a51-a65d-8d92ff46eef8",
     "title": "Circular",
     "created_at": "2025-06-12T07:47:57.607233+00:00",
