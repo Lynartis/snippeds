@@ -1,5 +1,12 @@
 [
   {
+    "id": "98b55917-382e-4bbf-b6ad-bcfb3e688191",
+    "title": "Uview",
+    "created_at": "2025-06-16T12:10:19.655255+00:00",
+    "content": "// Vertex local del quad (por ejemplo -0.5, -0.5, 0)\nfloat3 localPos = v.Position;\n\n// 1. Extrae rotación de la instancia como matriz 3x3\nfloat3x3 instanceRot = (float3x3)instanceWorld;\n\n// 2. Rota el vértice local del quad\nfloat3 rotatedLocalPos = mul(instanceRot, localPos); // respetar rotación Y\n\n// 3. Saca ejes de la cámara desde mul(instanceWorld, uView)\nfloat4x4 worldview = mul(instanceWorld, uView);\n\n// Cada columna de la matriz contiene el eje en view space, transformado por la instancia\nfloat3 camRight = normalize(float3(worldview[0][0], worldview[1][0], worldview[2][0]));\nfloat3 camUp    = normalize(float3(worldview[0][1], worldview[1][1], worldview[2][1]));\n\n// 4. Usa esos ejes para construir la posición del vértice en espacio mundo\nfloat3 worldPos = instanceWorld[3].xyz\n                + camRight * rotatedLocalPos.x\n                + camUp    * rotatedLocalPos.y;\n\n// 5. Transforma a clip space\nfloat4 posView = mul(float4(worldPos, 1.0), uView);\nfloat4 posClip = mul(posView, uProj);",
+    "type": "código"
+  },
+  {
     "id": "68d14500-411d-4609-925e-a6fb07b71a62",
     "title": "Wrap",
     "created_at": "2025-06-16T09:09:07.556853+00:00",
