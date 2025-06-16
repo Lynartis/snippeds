@@ -1,5 +1,12 @@
 [
   {
+    "id": "68d14500-411d-4609-925e-a6fb07b71a62",
+    "title": "Wrap",
+    "created_at": "2025-06-16T09:09:07.556853+00:00",
+    "content": "// Textura de entrada (gradiente lineal)\nTexture2D gradientTex : register(t0);\nSamplerState samplerState : register(s0);\n\n// Parámetros de animación\nfloat time;             // Tiempo externo (puede venir del motor)\nfloat lightWidth = 0.2; // Ancho de la \"ventana\" de luz (0 a 1)\nfloat speed = 0.5;      // Velocidad de paneo\n\n// Entrada UV por fragmento/píxel\nfloat2 uv : TEXCOORD0;\n\nfloat4 main(float2 uv : TEXCOORD0) : SV_Target\n{\n    // Color base del gradiente (asumimos que va en eje X)\n    float base = gradientTex.Sample(samplerState, uv).r;\n\n    // Centro de la luz que se mueve de 0 a 1 en bucle\n    float lightCenter = frac(time * speed);\n\n    // Distancia entre uv.x y la luz, considerando envolvimiento cíclico\n    float dist = abs(uv.x - lightCenter);\n    dist = min(dist, 1.0 - dist); // wrap-around: el gradiente \"conecta\" en los bordes\n\n    // Creamos una máscara suave de luz según esa distancia\n    float halfWidth = lightWidth * 0.5;\n    float mask = smoothstep(halfWidth, halfWidth - 0.01, dist);\n\n    // Resultado: solo se ilumina la parte dentro de la ventana de luz\n    float lit = base * mask;\n\n    return float4(lit.xxx, 1.0); // RGB gris con alpha 1\n}",
+    "type": "código"
+  },
+  {
     "id": "a22fbdb7-9e91-47e4-9db4-b9e307d8520a",
     "title": "Este",
     "created_at": "2025-06-13T12:34:23.798792+00:00",
