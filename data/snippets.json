@@ -1,5 +1,12 @@
 [
   {
+    "id": "b5413cb6-f15f-4beb-b5b4-7f0c28054100",
+    "title": "Thunder",
+    "created_at": "2025-06-17T13:42:19.11855+00:00",
+    "content": "float hash(float x) {\n    return frac(sin(x * 123.456) * 45678.123);\n}\n\n// Devuelve intensidad de un flash basado en el tiempo\nfloat lightningFlash(float time, float seed) {\n    float t = frac(time * 10.0 + seed);\n    float flash = exp(-50.0 * t); // caída rápida de intensidad\n    flash *= step(t, 0.1);        // solo activa en el primer tramo\n    return flash;\n}\n\n// Genera una secuencia de rayos (flashes) con tiempos aleatorios\nfloat simulateLightning(float time, float stormSeed) {\n    float intensity = 0.0;\n    for (int i = 0; i < 4; i++) {\n        float offset = floor(time) + i * 0.73;\n        float seed = hash(offset + stormSeed);\n        float flashTime = offset + seed * 1.5;\n        intensity += lightningFlash(time - flashTime, seed);\n    }\n\n    return saturate(intensity * 2.5); // intensifica el resultado\n}",
+    "type": "código"
+  },
+  {
     "id": "98b55917-382e-4bbf-b6ad-bcfb3e688191",
     "title": "Uview",
     "created_at": "2025-06-16T12:10:19.655255+00:00",
