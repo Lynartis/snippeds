@@ -1,5 +1,12 @@
 [
   {
+    "id": "701ecb76-5e78-4969-9d76-3f281e6ada85",
+    "title": "Helpme",
+    "created_at": "2025-08-06T09:36:07.337135+00:00",
+    "content": "struct VS_INPUT\n{\n    float3 position : POSITION;\n    float4 color    : COLOR; // alpha = random\n};\n\nstruct VS_OUTPUT\n{\n    float4 position : SV_POSITION;\n    float4 color    : COLOR;\n};\n\nfloat3 Random3(float seed)\n{\n    // Simple 3D noise from scalar (you can improve this)\n    return frac(sin(float3(seed, seed + 13.1, seed + 37.7)) * 43758.5453);\n}\n\nVS_OUTPUT VS_Main(VS_INPUT input)\n{\n    VS_OUTPUT output;\n\n    float rand = input.color.a;\n\n    // Aleatorio 3D por elemento\n    float3 rand3 = Random3(rand);\n\n    // Spawn position inside box centered at pivot\n    float3 halfBox = boxSize * 0.5;\n    float3 localOffset = (rand3 - 0.5) * boxSize; // rango -0.5 a 0.5\n    float3 spawnPos = pivot + localOffset;\n\n    // Movimiento\n    float3 motion = moveDirection * (rand * time * moveAmount);\n\n    // Posición final\n    float3 worldPos = spawnPos + motion;\n\n    output.position = mul(float4(worldPos, 1.0), WorldViewProj);\n    output.color = input.color;\n    return output;\n}",
+    "type": "Chat"
+  },
+  {
     "id": "a688b5ee-ef45-48db-a7ba-6b38958a1d86",
     "title": "Billiegin",
     "created_at": "2025-08-06T09:26:36.512006+00:00",
