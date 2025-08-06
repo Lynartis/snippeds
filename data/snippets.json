@@ -1,5 +1,12 @@
 [
   {
+    "id": "a688b5ee-ef45-48db-a7ba-6b38958a1d86",
+    "title": "Billiegin",
+    "created_at": "2025-08-06T09:26:36.512006+00:00",
+    "content": "cbuffer Params : register(b0)\n{\n    float3 bboxMin;        // bounding box minimum\n    float3 bboxMax;        // bounding box maximum\n    float3 moveDirection;  // normalized direction vector\n    float  moveAmount;     // movement strength multiplier\n    float  time;           // global time\n};\n\nstruct VS_INPUT\n{\n    float3 position : POSITION;\n    float4 color    : COLOR; // alpha = random per element\n};\n\nstruct VS_OUTPUT\n{\n    float4 position : SV_POSITION;\n    float4 color    : COLOR;\n};\n\nVS_OUTPUT VS_Main(VS_INPUT input)\n{\n    VS_OUTPUT output;\n\n    float rand = input.color.a;\n\n    // Position inside bounding box\n    float3 bboxRange = bboxMax - bboxMin;\n    float3 localOffset = frac(rand * float3(12.9898, 78.233, 37.719)) * bboxRange;\n    float3 spawnPos = bboxMin + localOffset;\n\n    // Motion over time\n    float3 motion = moveDirection * (rand * time * moveAmount);\n\n    // Final position\n    float3 worldPos = spawnPos + motion;\n\n    // Output\n    output.position = mul(float4(worldPos, 1.0), WorldViewProj); // or your WVP matrix\n    output.color = input.color;\n    return output;\n}",
+    "type": "código"
+  },
+  {
     "id": "b5413cb6-f15f-4beb-b5b4-7f0c28054100",
     "title": "Thunder",
     "created_at": "2025-06-17T13:42:19.11855+00:00",
