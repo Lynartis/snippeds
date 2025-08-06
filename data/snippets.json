@@ -1,5 +1,12 @@
 [
   {
+    "id": "023b92e0-a79c-496a-861e-16a18d418f8a",
+    "title": "float4 PS_Main(VS_OUTPUT input) : SV_TARGET {     float t = input.lifeT;      // Fade in/out suave     float fade = smoothstep(0.0, 0.1, t) * (1.0 - smoothstep(0.9, 1.0, t));      return float4(1, 1, 1, fade); // RGB blanco con alpha animado }",
+    "created_at": "2025-08-06T12:15:30.461417+00:00",
+    "content": "Fade",
+    "type": "código"
+  },
+  {
     "id": "ae902862-fa46-4c23-b854-7e0594753062",
     "title": "Statelessmagic",
     "created_at": "2025-08-06T10:28:51.810504+00:00",
