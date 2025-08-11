@@ -1,5 +1,12 @@
 [
   {
+    "id": "67fd17a0-eb18-4eb7-a86f-ce1d3f056e5d",
+    "title": "Nlue noise",
+    "created_at": "2025-08-11T11:33:09.598599+00:00",
+    "content": "// White noise from hash\nfloat WhiteNoise(float2 p)\n{\n    // hash -> [0,1]\n    return frac(sin(dot(p, float2(127.1, 311.7))) * 43758.5453);\n}\n\n// \"Blue-ish\" noise: subtract blurred noise to kill low frequencies\nfloat BlueNoiseApprox(float2 p)\n{\n    float n  = WhiteNoise(p);\n    float nb = (\n        WhiteNoise(p + float2(1,0)) +\n        WhiteNoise(p + float2(-1,0)) +\n        WhiteNoise(p + float2(0,1)) +\n        WhiteNoise(p + float2(0,-1))\n    ) * 0.25;\n\n    // high-pass filter\n    float b = n - nb;\n    // normalize to [0,1]\n    return saturate(b * 2.0 + 0.5);\n}",
+    "type": "código"
+  },
+  {
     "id": "6fa7c817-7618-4de2-b8ce-5f718529807f",
     "title": "Mejorado",
     "created_at": "2025-08-11T10:41:27.185433+00:00",
